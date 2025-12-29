@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can only read/write their own data
+    match /issues/{issueId} {
+      // Allow read if user is authenticated
+      allow read: if request.auth != null;
+      
+      // Allow create if user is authenticated
+      allow create: if request.auth != null
+        && request.resource.data.createdBy == request.auth.token.email;
+      
+      // Allow update if user is authenticated (can update any issue)
+      allow update: if request.auth != null;
+      
+      // Allow delete if user is authenticated (can delete any issue)
+      allow delete: if request.auth != null;
+    }
+  }
+}
+
