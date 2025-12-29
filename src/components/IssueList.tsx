@@ -4,7 +4,6 @@ import { getIssues, updateIssueStatus } from '../services/issueService';
 import { format } from 'date-fns';
 
 export function IssueList() {
-  const [issues, setIssues] = useState<Issue[]>([]);
   const [filteredIssues, setFilteredIssues] = useState<Issue[]>([]);
   const [statusFilter, setStatusFilter] = useState<Status | ''>('');
   const [priorityFilter, setPriorityFilter] = useState<Priority | ''>('');
@@ -24,7 +23,6 @@ export function IssueList() {
         statusFilter || undefined,
         priorityFilter || undefined
       );
-      setIssues(fetchedIssues);
       setFilteredIssues(fetchedIssues);
     } catch (err: any) {
       setError(err.message || 'Failed to load issues');
